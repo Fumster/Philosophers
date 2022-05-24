@@ -1,6 +1,6 @@
 INCLUDES =		-L./libs/libft -lft
 LIBFT =	./libs/libft/libft.a
-SOURCES = 	main.c
+SOURCES = 	main.c main_helpers.c time_helpers.c
 OBJECTS =	$(SOURCES:.c=.o)
 OBJECTS_B =	$(SOURCES_B:.c=.o)
 HEADER = 	philo.h
