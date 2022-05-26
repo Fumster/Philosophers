@@ -6,13 +6,13 @@
 /*   By: fchrysta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 14:33:45 by fchrysta          #+#    #+#             */
-/*   Updated: 2022/05/25 19:48:07 by fchrysta         ###   ########.fr       */
+/*   Updated: 2022/05/26 11:45:29 by fchrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../hdr/philo.h"
 
-void	exit_now(t_vars *vars)
+void	ft_exit(t_vars *vars)
 {
 	int	i;
 

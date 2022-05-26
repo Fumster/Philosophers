@@ -1,13 +1,14 @@
 INCLUDES =		-L./libs/libft -lft
 LIBFT =	./libs/libft/libft.a
-SOURCES = 	main.c main_helpers.c time_helpers.c initiate_variables.c
+SOURCES = 	main.c main_helpers.c time_helpers.c initiate_variables.c \
+			thread_helpers.c philo_thread.c
 OBJECTS =	$(SOURCES:.c=.o)
 OBJECTS_B =	$(SOURCES_B:.c=.o)
 HEADER = 	philo.h
 CC = 		gcc
 NAME =		philo
 BONUS =		philo_b
-FLAGS =		-Wall -Wextra -Werror
+FLAGS =		-Wall -Wextra -Werror -fsanitize=thread
 VPATH = 	obj:src:hdr
 
 .PHONY:		all re clean fclean libs

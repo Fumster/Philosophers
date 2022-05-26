@@ -6,7 +6,7 @@
 /*   By: fchrysta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 17:55:26 by fchrysta          #+#    #+#             */
-/*   Updated: 2022/05/25 18:55:14 by fchrysta         ###   ########.fr       */
+/*   Updated: 2022/05/26 19:36:38 by fchrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	mysleep(int slp)
 	while (((time.tv_sec * 1000 + time.tv_usec / 1000) - begin)
 		< (unsigned long)slp)
 	{
-		usleep(100);
+		usleep(95);
 		gettimeofday(&time, NULL);
 	}
 }

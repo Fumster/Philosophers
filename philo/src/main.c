@@ -6,7 +6,7 @@
 /*   By: fchrysta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 14:28:58 by fchrysta          #+#    #+#             */
-/*   Updated: 2022/05/25 19:50:29 by fchrysta         ###   ########.fr       */
+/*   Updated: 2022/05/26 21:12:03 by fchrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,18 @@ int	main(int argc, char **argv)
 		return (0);
 	if (initiate_variables(&vars, &dead_check_mutex, &print_mutex))
 	{
-		exit_now(&vars);
+		write(1, "error while initiate variables\n", 31);
+		ft_exit(&vars);
 		return (0);
 	}
+	if (start_threads(&vars))
+	{
+		write(1, "error while start threads\n", 26);
+		ft_exit(&vars);
+		return (0);
+	}
+//	thread_watcher(&vars);
 	write(1, "good\n", 6);
-	exit_now(&vars);
+	ft_exit(&vars);
 	return (0);
 }

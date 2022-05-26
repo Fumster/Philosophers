@@ -6,7 +6,7 @@
 /*   By: fchrysta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 15:17:06 by fchrysta          #+#    #+#             */
-/*   Updated: 2022/05/25 19:50:26 by fchrysta         ###   ########.fr       */
+/*   Updated: 2022/05/26 21:11:59 by fchrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,9 @@ unsigned long	get_time(void);
 void			mysleep(int slp);
 int				initiate_variables(t_vars *vars,
 	pthread_mutex_t *dead_check_mutex, pthread_mutex_t *print_mutex);
-void			exit_now(t_vars *vars);
+void			ft_exit(t_vars *vars);
+int				start_threads(t_vars *vars);
+void			*philo_thread(void *v_philo);
+void			philo_print(t_philo *philo, char *message);
 
 #endif
