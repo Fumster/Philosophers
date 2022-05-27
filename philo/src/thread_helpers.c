@@ -6,7 +6,7 @@
 /*   By: fchrysta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 11:47:12 by fchrysta          #+#    #+#             */
-/*   Updated: 2022/05/27 21:02:16 by fchrysta         ###   ########.fr       */
+/*   Updated: 2022/05/27 22:00:04 by fchrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	check_philo_time(t_vars *vars)
 		if (get_time() - vars->philo[i].eat_time
 			> (unsigned long)vars->time_to_die)
 		{
-			philo_print(&vars->philo[i], "died");
+			philo_print(&vars->philo[i], "died", get_time());
 			pthread_mutex_lock(&vars->end_check_mutex);
 			vars->is_end = 0;
 			pthread_mutex_unlock(&vars->end_check_mutex);
@@ -42,12 +42,12 @@ void	thread_watcher(t_vars *vars)
 			break ;
 		pthread_mutex_unlock(&vars->end_check_mutex);
 		check_philo_time(vars);
-		usleep(1);
+		usleep(10);
 	}
 	pthread_mutex_unlock(&vars->end_check_mutex);
 }
 
-void	philo_print(t_philo *philo, char *message)
+void	philo_print(t_philo *philo, char *message, unsigned long time)
 {
 	pthread_mutex_lock(&philo->vars->end_check_mutex);
 	if (philo->vars->is_end <= 0)
@@ -58,7 +58,7 @@ void	philo_print(t_philo *philo, char *message)
 	pthread_mutex_unlock(&philo->vars->end_check_mutex);
 	pthread_mutex_lock(&philo->vars->print_mutex);
 	printf("%lu %d %s\n",
-		get_time() - philo->vars->start_time, philo->id, message);
+		time - philo->vars->start_time, philo->id, message);
 	pthread_mutex_unlock(&philo->vars->print_mutex);
 }
 

@@ -6,7 +6,7 @@
 /*   By: fchrysta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 19:06:36 by fchrysta          #+#    #+#             */
-/*   Updated: 2022/05/27 20:58:38 by fchrysta         ###   ########.fr       */
+/*   Updated: 2022/05/27 22:03:32 by fchrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ void	philo_cycle(t_philo *philo, int eat_t, int sleep_t)
 			break ;
 		pthread_mutex_unlock(&philo->vars->end_check_mutex);
 		pthread_mutex_lock(philo->left_fork);
-		philo_print(philo, "has taken a fork");
+		philo_print(philo, "has taken a fork", get_time());
 		pthread_mutex_lock(philo->right_fork);
-		philo_print(philo, "has taken a fork");
-		philo_print(philo, "is eating");
+		philo_print(philo, "has taken a fork", get_time());
+		philo_print(philo, "is eating", get_time());
 		pthread_mutex_lock(&philo->vars->eat_time_mutex);
 		philo->eat_time = get_time();
 		pthread_mutex_unlock(&philo->vars->eat_time_mutex);
@@ -34,9 +34,9 @@ void	philo_cycle(t_philo *philo, int eat_t, int sleep_t)
 		philo->eat_num--;
 		if (!philo->eat_num)
 			break ;
-		philo_print(philo, "is sleeping");
+		philo_print(philo, "is sleeping", get_time());
 		mysleep (sleep_t);
-		philo_print(philo, "is thinking");
+		philo_print(philo, "is thinking", get_time());
 	}
 }
 
@@ -49,9 +49,9 @@ void	*philo_thread(void *v_philo)
 	philo = (t_philo *)v_philo;
 	time_to_eat = philo->vars->time_to_eat;
 	time_to_sleep = philo->vars->time_to_sleep;
-	philo_print(philo, "is thinking");
+	philo_print(philo, "is thinking", get_time());
 	if (philo->id % 2 == 1)
-		usleep(100);
+		usleep(20000);
 	philo_cycle(philo, time_to_eat, time_to_sleep);
 	pthread_mutex_unlock(&philo->vars->end_check_mutex);
 	pthread_mutex_lock(&philo->vars->end_check_mutex);
