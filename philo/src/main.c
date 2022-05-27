@@ -6,7 +6,7 @@
 /*   By: fchrysta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 14:28:58 by fchrysta          #+#    #+#             */
-/*   Updated: 2022/05/27 17:29:06 by fchrysta         ###   ########.fr       */
+/*   Updated: 2022/05/27 20:54:50 by fchrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	main(int argc, char **argv)
 {
 	t_vars			vars;
+
 	if (parse_args(argc, argv, &vars))
 		return (0);
 	if (initiate_variables(&vars))

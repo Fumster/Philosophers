@@ -6,53 +6,60 @@
 /*   By: fchrysta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 11:47:12 by fchrysta          #+#    #+#             */
-/*   Updated: 2022/05/27 18:57:57 by fchrysta         ###   ########.fr       */
+/*   Updated: 2022/05/27 21:02:16 by fchrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../hdr/philo.h"
 
-void	thread_watcher(t_vars *vars)
+void	check_philo_time(t_vars *vars)
 {
 	int	i;
 
 	i = 0;
-	while (1)
+	while (i < vars->philo_num)
 	{
-		while (i < vars->philo_num)
+		pthread_mutex_lock(&vars->eat_time_mutex);
+		if (get_time() - vars->philo[i].eat_time
+			> (unsigned long)vars->time_to_die)
 		{
+			philo_print(&vars->philo[i], "died");
 			pthread_mutex_lock(&vars->end_check_mutex);
-			if (get_time() - vars->philo[i].eat_time
-				>= (unsigned long)vars->time_to_die)
-			{
-				pthread_mutex_unlock(&vars->end_check_mutex);
-				philo_print(&vars->philo[i], "died");
-				pthread_mutex_lock(&vars->end_check_mutex);
-				vars->is_end = 0;
-			}
-			i++;
+			vars->is_end = 0;
 			pthread_mutex_unlock(&vars->end_check_mutex);
 		}
-		i = 0;
-		usleep(100);
+		i++;
+		pthread_mutex_unlock(&vars->eat_time_mutex);
 	}
+}
+
+void	thread_watcher(t_vars *vars)
+{
+	while (1)
+	{
+		pthread_mutex_lock(&vars->end_check_mutex);
+		if (vars->is_end <= 0)
+			break ;
+		pthread_mutex_unlock(&vars->end_check_mutex);
+		check_philo_time(vars);
+		usleep(1);
+	}
+	pthread_mutex_unlock(&vars->end_check_mutex);
 }
 
 void	philo_print(t_philo *philo, char *message)
 {
-	int	end;
-
 	pthread_mutex_lock(&philo->vars->end_check_mutex);
-	end = philo->vars->is_end;
-	pthread_mutex_unlock(&philo->vars->end_check_mutex);
-	if (end != 0)
+	if (philo->vars->is_end <= 0)
 	{
-		pthread_mutex_lock(&philo->vars->print_mutex);
-		printf("%lu %d %s\n",
-			get_time() - philo->vars->start_time, philo->id, message);
-		pthread_mutex_unlock(&philo->vars->print_mutex);
+		pthread_mutex_unlock(&philo->vars->end_check_mutex);
+		return ;
 	}
-
+	pthread_mutex_unlock(&philo->vars->end_check_mutex);
+	pthread_mutex_lock(&philo->vars->print_mutex);
+	printf("%lu %d %s\n",
+		get_time() - philo->vars->start_time, philo->id, message);
+	pthread_mutex_unlock(&philo->vars->print_mutex);
 }
 
 void	join_threads(t_vars *vars)
@@ -76,10 +83,10 @@ int	start_threads(t_vars *vars)
 	while (i < vars->philo_num)
 	{
 		vars->philo[i].eat_time = vars->start_time;
-	if (pthread_create(&(vars->philo_thread[i]),
-			NULL, philo_thread, &(vars->philo[i])))
+		if (pthread_create(&(vars->philo_thread[i]),
+				NULL, philo_thread, &(vars->philo[i])))
 			return (1);
 		i++;
 	}
-	return(0);
+	return (0);
 }

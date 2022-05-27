@@ -6,7 +6,7 @@
 /*   By: fchrysta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 15:17:06 by fchrysta          #+#    #+#             */
-/*   Updated: 2022/05/27 18:47:59 by fchrysta         ###   ########.fr       */
+/*   Updated: 2022/05/27 19:15:01 by fchrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ typedef struct s_vars
 	pthread_t		*philo_thread;
 	pthread_mutex_t	*fork;
 	pthread_mutex_t	print_mutex;
-	pthread_mutex_t	ended_philo_count_mutex;
+	pthread_mutex_t	eat_time_mutex;
 	pthread_mutex_t	end_check_mutex;
 }				t_vars;
 

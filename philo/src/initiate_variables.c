@@ -6,7 +6,7 @@
 /*   By: fchrysta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 14:21:13 by fchrysta          #+#    #+#             */
-/*   Updated: 2022/05/27 18:48:26 by fchrysta         ###   ########.fr       */
+/*   Updated: 2022/05/27 19:15:20 by fchrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	initiate_variables(t_vars *vars)
 	vars->philo_thread = NULL;
 	err = pthread_mutex_init(&vars->end_check_mutex, NULL);
 	err += pthread_mutex_init(&vars->print_mutex, NULL);
-	err += pthread_mutex_init(&vars->ended_philo_count_mutex, NULL);
+	err += pthread_mutex_init(&vars->eat_time_mutex, NULL);
 	vars->philo = malloc (sizeof(t_philo) * vars->philo_num);
 	vars->fork = malloc (sizeof(pthread_mutex_t) * vars->philo_num);
 	vars->philo_thread = malloc (sizeof(t_philo) * vars->philo_num);

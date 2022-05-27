@@ -6,7 +6,7 @@
 /*   By: fchrysta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 14:33:45 by fchrysta          #+#    #+#             */
-/*   Updated: 2022/05/27 18:48:53 by fchrysta         ###   ########.fr       */
+/*   Updated: 2022/05/27 20:58:05 by fchrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,16 @@ void	ft_exit(t_vars *vars)
 	i = 0;
 	while (i < vars->philo_num)
 	{
-	 	if (pthread_mutex_destroy(&vars->fork[i]))
+		if (pthread_mutex_destroy(&vars->fork[i]))
 			printf("unable to destroy fork %d mutex\n", i);
 		i++;
 	}
 	if (pthread_mutex_destroy(&vars->print_mutex))
 		printf("unable to destroy print mutex\n");
 	if (pthread_mutex_destroy(&vars->end_check_mutex))
-		printf("unable to destroy dead check mutex\n");
-	if (pthread_mutex_destroy(&vars->ended_philo_count_mutex))
-		printf("unable to destroy ended philo count mutex\n");
+		printf("unable to destroy end check mutex\n");
+	if (pthread_mutex_destroy(&vars->eat_time_mutex))
+		printf("unable to destroy end time mutex\n");
 	if (vars->philo)
 		free(vars->philo);
 	if (vars->philo_thread)
@@ -37,7 +37,7 @@ void	ft_exit(t_vars *vars)
 		free(vars->fork);
 }
 
-int check_values(t_vars *vars, int argc, char **argv)
+int	check_values(t_vars *vars, int argc, char **argv)
 {
 	if (vars->philo_num < 1 || vars->time_to_die < 1 || vars->time_to_eat < 1
 		|| vars->time_to_sleep < 1 || (argc == 6 && vars->eat_num < 1)
@@ -70,7 +70,7 @@ int	parse_args(int argc, char **argv, t_vars *vars)
 	vars->eat_num = -1;
 	if (argc == 6)
 		vars->eat_num = ft_atoi(argv[5]);
-	if (check_values(vars, argc, argv))	
+	if (check_values(vars, argc, argv))
 		return (1);
 	return (0);
 }
