@@ -6,7 +6,7 @@
 /*   By: fchrysta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 14:33:45 by fchrysta          #+#    #+#             */
-/*   Updated: 2022/05/26 11:45:29 by fchrysta         ###   ########.fr       */
+/*   Updated: 2022/05/27 18:48:53 by fchrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,16 @@ void	ft_exit(t_vars *vars)
 	i = 0;
 	while (i < vars->philo_num)
 	{
-		if (pthread_mutex_destroy(&(vars->fork[i])))
-			printf("unable to destroy fork %d mutex\n", i + 1);
+	 	if (pthread_mutex_destroy(&vars->fork[i]))
+			printf("unable to destroy fork %d mutex\n", i);
 		i++;
 	}
-	if (pthread_mutex_destroy(vars->print_mutex))
+	if (pthread_mutex_destroy(&vars->print_mutex))
 		printf("unable to destroy print mutex\n");
-	if (pthread_mutex_destroy(vars->dead_check_mutex))
+	if (pthread_mutex_destroy(&vars->end_check_mutex))
 		printf("unable to destroy dead check mutex\n");
+	if (pthread_mutex_destroy(&vars->ended_philo_count_mutex))
+		printf("unable to destroy ended philo count mutex\n");
 	if (vars->philo)
 		free(vars->philo);
 	if (vars->philo_thread)

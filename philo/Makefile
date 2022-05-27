@@ -8,7 +8,7 @@ HEADER = 	philo.h
 CC = 		gcc
 NAME =		philo
 BONUS =		philo_b
-FLAGS =		-Wall -Wextra -Werror -fsanitize=thread
+FLAGS =		-Wall -Wextra -Werror -g -fsanitize=thread
 VPATH = 	obj:src:hdr
 
 .PHONY:		all re clean fclean libs

@@ -6,7 +6,7 @@
 /*   By: fchrysta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 15:17:06 by fchrysta          #+#    #+#             */
-/*   Updated: 2022/05/26 21:11:59 by fchrysta         ###   ########.fr       */
+/*   Updated: 2022/05/27 18:47:59 by fchrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,10 @@ typedef struct s_philo
 {
 	unsigned long		eat_time;
 	int					id;
-	int					time_to_die;
-	int					time_to_eat;
-	int					time_to_sleep;
 	int					eat_num;
 	struct s_vars		*vars;
 	pthread_mutex_t		*left_fork;
 	pthread_mutex_t		*right_fork;
-	pthread_mutex_t		*print_mutex;
 }				t_philo;
 
 typedef struct s_vars
@@ -46,18 +42,20 @@ typedef struct s_vars
 	t_philo			*philo;
 	pthread_t		*philo_thread;
 	pthread_mutex_t	*fork;
-	pthread_mutex_t	*print_mutex;
-	pthread_mutex_t	*dead_check_mutex;
+	pthread_mutex_t	print_mutex;
+	pthread_mutex_t	ended_philo_count_mutex;
+	pthread_mutex_t	end_check_mutex;
 }				t_vars;
 
 int				parse_args(int argc, char **argv, t_vars *vars);
 unsigned long	get_time(void);
 void			mysleep(int slp);
-int				initiate_variables(t_vars *vars,
-	pthread_mutex_t *dead_check_mutex, pthread_mutex_t *print_mutex);
+int				initiate_variables(t_vars *vars);
 void			ft_exit(t_vars *vars);
 int				start_threads(t_vars *vars);
 void			*philo_thread(void *v_philo);
 void			philo_print(t_philo *philo, char *message);
+void			join_threads(t_vars *vars);
+void			thread_watcher(t_vars *vars);
 
 #endif
