@@ -6,7 +6,7 @@
 /*   By: fchrysta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 15:17:06 by fchrysta          #+#    #+#             */
-/*   Updated: 2022/05/27 23:31:06 by fchrysta         ###   ########.fr       */
+/*   Updated: 2022/05/28 20:24:51 by fchrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,7 @@ void			*philo_thread(void *v_philo);
 void			philo_print(t_philo *philo, char *message);
 void			join_threads(t_vars *vars);
 void			thread_watcher(t_vars *vars);
+int				check_death(t_philo *philo, int die_time);
+int				sleep_and_check(t_philo *philo, int die_time, int delay);
 
 #endif

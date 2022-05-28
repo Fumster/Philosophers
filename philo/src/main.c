@@ -6,7 +6,7 @@
 /*   By: fchrysta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 14:28:58 by fchrysta          #+#    #+#             */
-/*   Updated: 2022/05/28 15:38:44 by fchrysta         ###   ########.fr       */
+/*   Updated: 2022/05/28 21:01:21 by fchrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int	main(int argc, char **argv)
 		ft_exit(&vars);
 		return (0);
 	}
-	thread_watcher(&vars);
 	join_threads(&vars);
 	ft_exit(&vars);
 	return (0);
