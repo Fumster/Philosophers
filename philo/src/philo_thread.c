@@ -6,7 +6,7 @@
 /*   By: fchrysta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 19:06:36 by fchrysta          #+#    #+#             */
-/*   Updated: 2022/05/28 00:39:51 by fchrysta         ###   ########.fr       */
+/*   Updated: 2022/05/28 15:42:46 by fchrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	philo_cycle(t_philo *philo, int eat_t, int sleep_t)
 	while (philo->eat_num != 0)
 	{
 		pthread_mutex_lock(&philo->vars->end_check_mutex);
-		if (philo->vars->is_end <= 0)
+		if (!(philo->vars->is_end > 0))
 			break ;
 		pthread_mutex_unlock(&philo->vars->end_check_mutex);
 		pthread_mutex_lock(philo->left_fork);
@@ -51,7 +51,7 @@ void	*philo_thread(void *v_philo)
 	time_to_sleep = philo->vars->time_to_sleep;
 	philo_print(philo, "is thinking");
 	if (philo->id % 2 == 1 && philo->vars->philo_num != 1)
-		usleep(20000);
+		mysleep(time_to_eat);
 	if (philo->vars->philo_num == 1)
 	{
 		philo_print(philo, "has taken a fork");
