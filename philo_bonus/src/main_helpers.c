@@ -6,7 +6,7 @@
 /*   By: fchrysta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 14:33:45 by fchrysta          #+#    #+#             */
-/*   Updated: 2022/05/27 20:58:05 by fchrysta         ###   ########.fr       */
+/*   Updated: 2022/05/29 20:50:31 by fchrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,19 @@ void	ft_exit(t_vars *vars)
 	i = 0;
 	while (i < vars->philo_num)
 	{
-		if (pthread_mutex_destroy(&vars->fork[i]))
-			printf("unable to destroy fork %d mutex\n", i);
+		kill(vars->pid[i], SIGKILL);
 		i++;
 	}
-	if (pthread_mutex_destroy(&vars->print_mutex))
-		printf("unable to destroy print mutex\n");
-	if (pthread_mutex_destroy(&vars->end_check_mutex))
-		printf("unable to destroy end check mutex\n");
-	if (pthread_mutex_destroy(&vars->eat_time_mutex))
-		printf("unable to destroy end time mutex\n");
-	if (vars->philo)
-		free(vars->philo);
-	if (vars->philo_thread)
-		free(vars->philo_thread);
-	if (vars->fork)
-		free(vars->fork);
+	if (sem_unlink("print_sem"))
+		printf("unable to unlink print sem\n");
+	if (sem_unlink("forks_sem"))
+		printf("unable to unlink forks sem\n");
+	if (sem_close(print_sem))
+		printf("unable to close print sem\n");
+	if (sem_close(forks_sem))
+		printf("unable to close forks sem\n");
+	if (vars->pid)
+		free(vars->pid);
 }
 
 int	check_values(t_vars *vars, int argc, char **argv)

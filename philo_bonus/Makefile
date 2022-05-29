@@ -1,7 +1,7 @@
 INCLUDES =		-L./libs/libft -lft
 LIBFT =	./libs/libft/libft.a
 SOURCES = 	main.c main_helpers.c time_helpers.c initiate_variables.c \
-			process_helpers.c philo_thread.c
+			process_helpers.c philo_process.c
 OBJECTS =	$(SOURCES:.c=.o)
 HEADER = 	philo.h
 CC = 		gcc

@@ -6,96 +6,80 @@
 /*   By: fchrysta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 11:47:12 by fchrysta          #+#    #+#             */
-/*   Updated: 2022/05/29 18:44:32 by fchrysta         ###   ########.fr       */
+/*   Updated: 2022/05/29 21:53:52 by fchrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../hdr/philo.h"
 
-void	check_philo_time(t_vars *vars, int i)
+int	check_death(t_philo *philo, int die_time)
 {
-	while (i < vars->philo_num)
-	{		
-		pthread_mutex_lock(&vars->end_check_mutex);
-		if (vars->is_end <= 0)
-		{
-			pthread_mutex_unlock(&vars->end_check_mutex);
-			break ;
-		}
-		pthread_mutex_unlock(&vars->end_check_mutex);
-		pthread_mutex_lock(&vars->eat_time_mutex);
-		if (get_time() - vars->philo[i].eat_time
-			>= (unsigned long)vars->time_to_die)
-		{
-			pthread_mutex_unlock(&vars->eat_time_mutex);
-			pthread_mutex_lock(&vars->end_check_mutex);
-			vars->is_end = 0;
-			pthread_mutex_unlock(&vars->end_check_mutex);
-			printf("%lu %d died\n",
-				get_time() - vars->start_time, i + 1);
-		}
-		i++;
-		pthread_mutex_unlock(&vars->eat_time_mutex);
+	pthread_mutex_lock(&philo->vars->end_check_mutex);
+	if (philo->vars->is_end <= 0)
+	{
+		pthread_mutex_unlock(philo->left_fork);
+		pthread_mutex_unlock(philo->right_fork);
+		pthread_mutex_unlock(&philo->vars->end_check_mutex);
+		return (1);
 	}
+	if (get_time() - philo->eat_time >= (unsigned long)die_time)
+	{
+		philo->vars->is_end = 0;
+		printf("%lu %d is died\n",
+			get_time() - philo->vars->start_time, philo->id);
+		pthread_mutex_unlock(philo->left_fork);
+		pthread_mutex_unlock(philo->right_fork);
+		pthread_mutex_unlock(&philo->vars->end_check_mutex);
+		return (1);
+	}
+	pthread_mutex_unlock(&philo->vars->end_check_mutex);
+	return (0);
 }
 
-void	process_watcher(t_vars *vars)
+int	sleep_and_check(t_philo *philo, int die_time, int delay)
 {
-	while (1)
+	while (delay > 10)
 	{
-		pthread_mutex_lock(&vars->end_check_mutex);
-		if (vars->is_end <= 0)
-		{
-			pthread_mutex_unlock(&vars->end_check_mutex);
-			break ;
-		}
-		pthread_mutex_unlock(&vars->end_check_mutex);
-		check_philo_time(vars, 0);
-		pthread_mutex_unlock(&vars->end_check_mutex);
-		usleep(5000);
+		mysleep(10);
+		if (check_death(philo, die_time))
+			return (1);
+		delay -= 10;
 	}
+	if (delay)
+	{
+		mysleep(delay);
+		if (check_death(philo, die_time))
+			return (1);
+	}
+	return (0);
 }
 
 void	philo_print(t_philo *philo, char *message)
 {
-	pthread_mutex_lock(&philo->vars->print_mutex);
-	pthread_mutex_lock(&philo->vars->end_check_mutex);
-	if (philo->vars->is_end <= 0)
-	{
-		pthread_mutex_unlock(&philo->vars->print_mutex);
-		pthread_mutex_unlock(&philo->vars->end_check_mutex);
-		return ;
-	}
+	sem_wait(vars->print_sem);
 	printf("%lu %d %s\n",
 		get_time() - philo->vars->start_time, philo->id, message);
-	pthread_mutex_unlock(&philo->vars->print_mutex);
-	pthread_mutex_unlock(&philo->vars->end_check_mutex);
+	sem_post(vars->print_sem);
 }
 
-int	process_manager(t_vars *vars, int command)
+int	start_processes(t_vars *vars)
 {
 	int	i;
 
 	i = 0;
-	if (command == 0)
+	vars->start_time = get_time();
+	vars->philo.eat_time = vars->start_time;
+	while (i < vars->philo_num)
 	{
-		while (i < vars->philo_num)
+		vars->pid[i] = fork();
+		if (vars->pid[i] == -1)
+			return (1);
+		if (vars->pid[i] == 0)
 		{
-			pthread_join(vars->philo_thread[i], NULL);
-			i++;
+			vars->philo.id = i + 1;
+			philo_process(vars); 
 		}
-	}
-	if (command == 1)
-	{
-		vars->start_time = get_time();
-		while (i < vars->philo_num)
-		{
-			vars->philo[i].eat_time = vars->start_time;
-			if (pthread_create(&(vars->philo_thread[i]),
-					NULL, philo_thread, &(vars->philo[i])))
-				return (1);
-			i++;
-		}
+		i++;
 	}
 	return (0);
 }
