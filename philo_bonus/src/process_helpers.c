@@ -6,7 +6,7 @@
 /*   By: fchrysta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 11:47:12 by fchrysta          #+#    #+#             */
-/*   Updated: 2022/05/29 18:16:05 by fchrysta         ###   ########.fr       */
+/*   Updated: 2022/05/29 18:44:32 by fchrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	check_philo_time(t_vars *vars, int i)
 	}
 }
 
-void	thread_watcher(t_vars *vars)
+void	process_watcher(t_vars *vars)
 {
 	while (1)
 	{
@@ -72,7 +72,7 @@ void	philo_print(t_philo *philo, char *message)
 	pthread_mutex_unlock(&philo->vars->end_check_mutex);
 }
 
-int	thread_manager(t_vars *vars, int command)
+int	process_manager(t_vars *vars, int command)
 {
 	int	i;
 
