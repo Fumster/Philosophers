@@ -6,7 +6,7 @@
 /*   By: fchrysta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 23:32:12 by fchrysta          #+#    #+#             */
-/*   Updated: 2022/05/24 16:20:42 by fchrysta         ###   ########.fr       */
+/*   Updated: 2022/05/29 15:57:36 by fchrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	ft_atoi(const char *str)
 		num = (num * 10) + (*str - 48);
 		str++;
 	}
-	if (num > 2147483647)
+	if (num > 2147483647 || (*str && !ft_isdigit(*str)))
 		return (0);
 	return (num * sign);
 }

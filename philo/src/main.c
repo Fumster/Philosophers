@@ -6,7 +6,7 @@
 /*   By: fchrysta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 14:28:58 by fchrysta          #+#    #+#             */
-/*   Updated: 2022/05/28 15:38:44 by fchrysta         ###   ########.fr       */
+/*   Updated: 2022/05/29 16:43:05 by fchrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,14 @@ int	main(int argc, char **argv)
 		ft_exit(&vars);
 		return (0);
 	}
-	if (start_threads(&vars))
+	if (thread_manager(&vars, 1))
 	{
 		write(1, "error while start threads\n", 26);
 		ft_exit(&vars);
 		return (0);
 	}
 	thread_watcher(&vars);
-	join_threads(&vars);
+	thread_manager(&vars, 0);
 	ft_exit(&vars);
 	return (0);
 }
