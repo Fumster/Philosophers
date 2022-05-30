@@ -6,7 +6,7 @@
 /*   By: fchrysta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 15:17:06 by fchrysta          #+#    #+#             */
-/*   Updated: 2022/05/29 21:53:50 by fchrysta         ###   ########.fr       */
+/*   Updated: 2022/05/30 20:13:07 by fchrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ typedef struct s_vars
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				eat_num;
-	int				is_end;
 	t_philo			philo;
 	pid_t			*pid;
 	sem_t			print_sem;
@@ -46,7 +45,6 @@ void			mysleep(int slp);
 int				initiate_variables(t_vars *vars);
 void			ft_exit(t_vars *vars);
 void			philo_process(t_vars *vars);
-void			philo_print(t_philo *philo, char *message);
+void			philo_print(t_vars *vars, char *message);
 int				start_processes(t_vars *vars);
-void			process_watcher(t_vars *vars);
 #endif

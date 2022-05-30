@@ -6,24 +6,23 @@
 /*   By: fchrysta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 19:06:36 by fchrysta          #+#    #+#             */
-/*   Updated: 2022/05/29 21:53:48 by fchrysta         ###   ########.fr       */
+/*   Updated: 2022/05/30 20:13:10 by fchrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../hdr/philo.h"
 
-void	try_eat(t_philo *philo, int eat_t)
+void	try_eat(t_vars *vars)
 {
 	sem_wait(vars->forks_sem);
-	philo_print(philo, "has taken a fork");
+	philo_print(vars, "has taken a fork");
 	sem_wait(vars->forks_sem);
-	philo_print(philo, "has taken a fork");
-	philo_print(philo, "is eating");
-	philo->eat_time = get_time();
-	pthread_mutex_unlock(&philo->vars->eat_time_mutex);
-	mysleep (eat_t);
-	pthread_mutex_unlock(philo->left_fork);
-	pthread_mutex_unlock(philo->right_fork);
+	philo_print(vars, "has taken a fork");
+	philo_print(vars, "is eating");
+	vars->philo.eat_time = get_time();
+	sleep_and_check (vars, vars->time_to_eat);
+	sem_post(vars->forks_sem);
+	sem_post(vars->forks_sem);
 	philo->eat_num--;
 }
 
@@ -31,11 +30,11 @@ int	philo_cycle(t_vars vars)
 {	
 	while (vars->eat_num != 0)
 	{
-		try_eat(philo, eat_t);
+		try_eat(vars);
 		if (!vars->eat_num)
-			break ;
+			return (0);
 		philo_print(philo, "is sleeping");
-		mysleep (vars->time_to_sleep);
+		sleep_and_check (vars, vars->time_to_sleep);
 		philo_print(philo, "is thinking");
 	}
 }

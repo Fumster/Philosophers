@@ -6,7 +6,7 @@
 /*   By: fchrysta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 14:21:13 by fchrysta          #+#    #+#             */
-/*   Updated: 2022/05/29 21:10:40 by fchrysta         ###   ########.fr       */
+/*   Updated: 2022/05/30 20:06:58 by fchrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int	initiate_variables(t_vars *vars)
 
 	err = 0;
 	vars->pid = NULL;
-	vars->is_end = 0;
 	vars->philo.id = 0;
 	err = sem_unlink("print_sem");
 	err +=sem_unlink("forks_sem");

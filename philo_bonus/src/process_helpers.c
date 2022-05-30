@@ -6,59 +6,47 @@
 /*   By: fchrysta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 11:47:12 by fchrysta          #+#    #+#             */
-/*   Updated: 2022/05/29 21:53:52 by fchrysta         ###   ########.fr       */
+/*   Updated: 2022/05/30 20:13:13 by fchrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../hdr/philo.h"
 
-int	check_death(t_philo *philo, int die_time)
+int	check_death(t_vars *vars)
 {
-	pthread_mutex_lock(&philo->vars->end_check_mutex);
-	if (philo->vars->is_end <= 0)
+	if (get_time() - vars->philo.eat_time >= (unsigned long)vars->time_to_die)
 	{
-		pthread_mutex_unlock(philo->left_fork);
-		pthread_mutex_unlock(philo->right_fork);
-		pthread_mutex_unlock(&philo->vars->end_check_mutex);
-		return (1);
-	}
-	if (get_time() - philo->eat_time >= (unsigned long)die_time)
-	{
-		philo->vars->is_end = 0;
+		sem_wait(vars->print_sem);
 		printf("%lu %d is died\n",
-			get_time() - philo->vars->start_time, philo->id);
-		pthread_mutex_unlock(philo->left_fork);
-		pthread_mutex_unlock(philo->right_fork);
-		pthread_mutex_unlock(&philo->vars->end_check_mutex);
+			get_time() - vars->start_time, vars->philo.id);
 		return (1);
 	}
-	pthread_mutex_unlock(&philo->vars->end_check_mutex);
 	return (0);
 }
 
-int	sleep_and_check(t_philo *philo, int die_time, int delay)
+int	sleep_and_check(t_vars *vars, int delay)
 {
-	while (delay > 10)
+	while (delay >= 5)
 	{
-		mysleep(10);
-		if (check_death(philo, die_time))
+		mysleep(5);
+		if (check_death(vars))
 			return (1);
-		delay -= 10;
+		delay -= 5;
 	}
-	if (delay)
+	if (delay > 0)
 	{
 		mysleep(delay);
-		if (check_death(philo, die_time))
+		if (check_death(vars))
 			return (1);
 	}
 	return (0);
 }
 
-void	philo_print(t_philo *philo, char *message)
+void	philo_print(t_vars *vars, char *message)
 {
 	sem_wait(vars->print_sem);
 	printf("%lu %d %s\n",
-		get_time() - philo->vars->start_time, philo->id, message);
+		get_time() - vars->start_time, vars->philo.id, message);
 	sem_post(vars->print_sem);
 }
 
