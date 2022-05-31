@@ -6,7 +6,7 @@
 /*   By: fchrysta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 14:21:13 by fchrysta          #+#    #+#             */
-/*   Updated: 2022/05/29 18:04:30 by fchrysta         ###   ########.fr       */
+/*   Updated: 2022/05/31 20:24:43 by fchrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	initiate_each_philo(t_vars *vars)
 	i = 0;
 	while (i < vars->philo_num)
 	{
+		vars->philo[i].eat_over = 0;
 		vars->philo[i].eat_time = 0;
 		vars->philo[i].id = i + 1;
 		vars->philo[i].eat_num = vars->eat_num;

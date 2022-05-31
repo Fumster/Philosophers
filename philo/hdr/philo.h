@@ -6,14 +6,13 @@
 /*   By: fchrysta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 15:17:06 by fchrysta          #+#    #+#             */
-/*   Updated: 2022/05/29 18:04:43 by fchrysta         ###   ########.fr       */
+/*   Updated: 2022/05/31 21:12:46 by fchrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
-# include "../libs/libft/libft.h"
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
@@ -25,6 +24,7 @@ typedef struct s_philo
 	unsigned long		eat_time;
 	int					id;
 	int					eat_num;
+	int					eat_over;
 	struct s_vars		*vars;
 	pthread_mutex_t		*left_fork;
 	pthread_mutex_t		*right_fork;
@@ -55,5 +55,8 @@ void			ft_exit(t_vars *vars);
 void			*philo_thread(void *v_philo);
 void			philo_print(t_philo *philo, char *message);
 int				thread_manager(t_vars *vars, int command);
+int				ft_atoi(const char *str);
 void			thread_watcher(t_vars *vars);
+int				ft_strlen(const char *s);
+
 #endif

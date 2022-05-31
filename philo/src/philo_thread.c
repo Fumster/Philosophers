@@ -6,7 +6,7 @@
 /*   By: fchrysta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 19:06:36 by fchrysta          #+#    #+#             */
-/*   Updated: 2022/05/29 18:04:05 by fchrysta         ###   ########.fr       */
+/*   Updated: 2022/05/31 21:16:55 by fchrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	try_eat(t_philo *philo, int eat_t)
 
 void	philo_cycle(t_philo *philo, int eat_t, int sleep_t)
 {	
-	while (philo->eat_num != 0)
+	while (1)
 	{
 		pthread_mutex_lock(&philo->vars->end_check_mutex);
 		if (philo->vars->is_end <= 0)
@@ -40,13 +40,10 @@ void	philo_cycle(t_philo *philo, int eat_t, int sleep_t)
 		}
 		pthread_mutex_unlock(&philo->vars->end_check_mutex);
 		try_eat(philo, eat_t);
-		if (!philo->eat_num)
-		{
-			pthread_mutex_lock(&philo->vars->end_check_mutex);
-			philo->vars->is_end--;
-			pthread_mutex_unlock(&philo->vars->end_check_mutex);
-			break ;
-		}
+		pthread_mutex_lock(&philo->vars->end_check_mutex);
+		if (!philo->eat_over && philo->eat_num == 0)
+			philo->eat_over = 1;
+		pthread_mutex_unlock(&philo->vars->end_check_mutex);
 		philo_print(philo, "is sleeping");
 		mysleep (sleep_t);
 		philo_print(philo, "is thinking");
