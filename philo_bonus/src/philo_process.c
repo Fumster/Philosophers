@@ -6,7 +6,7 @@
 /*   By: fchrysta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 19:06:36 by fchrysta          #+#    #+#             */
-/*   Updated: 2022/05/30 20:13:10 by fchrysta         ###   ########.fr       */
+/*   Updated: 2022/05/31 21:53:45 by fchrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	try_eat(t_vars *vars)
 
 int	philo_cycle(t_vars vars)
 {	
-	while (vars->eat_num != 0)
+	while (1)
 	{
 		try_eat(vars);
 		if (!vars->eat_num)
