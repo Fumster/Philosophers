@@ -6,7 +6,7 @@
 /*   By: fchrysta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 15:17:06 by fchrysta          #+#    #+#             */
-/*   Updated: 2022/05/30 20:13:07 by fchrysta         ###   ########.fr       */
+/*   Updated: 2022/06/02 01:10:22 by fchrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <sys/time.h>
+# include <semaphore.h>
+# include <signal.h>
+# include <pthread.h>
 
 typedef struct s_philo
 {
@@ -33,10 +36,13 @@ typedef struct s_vars
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				eat_num;
+	int				is_end;
 	t_philo			philo;
 	pid_t			*pid;
-	sem_t			print_sem;
-	sem_t			forks_sem;
+	sem_t			*print_sem;
+	sem_t			*forks_sem;
+	sem_t			*end_check_sem;
+	pthread_t		philo_thread;
 }				t_vars;
 
 int				parse_args(int argc, char **argv, t_vars *vars);
@@ -44,7 +50,9 @@ unsigned long	get_time(void);
 void			mysleep(int slp);
 int				initiate_variables(t_vars *vars);
 void			ft_exit(t_vars *vars);
-void			philo_process(t_vars *vars);
+int				philo_process(t_vars *vars);
 void			philo_print(t_vars *vars, char *message);
 int				start_processes(t_vars *vars);
+void    		*process_watcher(void *vars);
+int    killer(t_vars *vars);
 #endif

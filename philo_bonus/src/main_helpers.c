@@ -6,7 +6,7 @@
 /*   By: fchrysta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 14:33:45 by fchrysta          #+#    #+#             */
-/*   Updated: 2022/05/29 20:50:31 by fchrysta         ###   ########.fr       */
+/*   Updated: 2022/06/02 00:56:44 by fchrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ void	ft_exit(t_vars *vars)
 		printf("unable to unlink print sem\n");
 	if (sem_unlink("forks_sem"))
 		printf("unable to unlink forks sem\n");
-	if (sem_close(print_sem))
+	if (sem_close(vars->print_sem))
 		printf("unable to close print sem\n");
-	if (sem_close(forks_sem))
+	if (sem_close(vars->forks_sem))
 		printf("unable to close forks sem\n");
 	if (vars->pid)
 		free(vars->pid);
@@ -69,5 +69,18 @@ int	parse_args(int argc, char **argv, t_vars *vars)
 		vars->eat_num = ft_atoi(argv[5]);
 	if (check_values(vars, argc, argv))
 		return (1);
+	return (0);
+}
+
+int	killer(t_vars *vars)
+{
+	int	i;
+
+	i = 0;
+	while (i < vars->philo_num)
+	{
+		kill(vars->pid[i], SIGKILL);
+		i++;
+	}
 	return (0);
 }

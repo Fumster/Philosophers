@@ -6,7 +6,7 @@
 /*   By: fchrysta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 14:28:58 by fchrysta          #+#    #+#             */
-/*   Updated: 2022/05/29 21:12:18 by fchrysta         ###   ########.fr       */
+/*   Updated: 2022/06/02 00:38:07 by fchrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	main(int argc, char **argv)
 {
-	t_vars			vars;
+	t_vars	vars;
 
 	if (parse_args(argc, argv, &vars))
 		return (0);
@@ -30,8 +30,6 @@ int	main(int argc, char **argv)
 		ft_exit(&vars);
 		return (0);
 	}
-	thread_watcher(&vars);
-	waitpid(-1, &is_end, 0);
 	ft_exit(&vars);
 	return (0);
 }
