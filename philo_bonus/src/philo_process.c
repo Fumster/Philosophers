@@ -6,7 +6,7 @@
 /*   By: fchrysta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 19:06:36 by fchrysta          #+#    #+#             */
-/*   Updated: 2022/06/02 01:08:11 by fchrysta         ###   ########.fr       */
+/*   Updated: 2022/06/02 22:43:09 by fchrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,11 @@ int	philo_process(t_vars *vars)
 	if (vars->philo_num == 1)
 	{
 		philo_print(vars, "has taken a fork");
-		mysleep(vars->time_to_die + 5);
+		mysleep(vars->time_to_die + 200);
 		ret = 1;
 	}
 	else
 		ret = philo_cycle(vars);
+	pthread_create(&(vars->philo_thread),NULL, process_watcher, &vars);
 	return (ret);
 }

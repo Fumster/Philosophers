@@ -6,7 +6,7 @@
 /*   By: fchrysta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 14:21:13 by fchrysta          #+#    #+#             */
-/*   Updated: 2022/06/02 20:18:31 by fchrysta         ###   ########.fr       */
+/*   Updated: 2022/06/02 20:41:29 by fchrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,12 @@ int	initiate_variables(t_vars *vars)
 	err = 0;
 	vars->pid = NULL;
 	vars->philo.id = 0;
-	if (sem_post(vars->print_sem) == -1)
+	if (sem_post(vars->print_sem) == 0)
 		err += sem_unlink("print_sem");
-	if (sem_post(vars->forks_sem) == -1)
+	if (sem_post(vars->forks_sem) == 0)
 		err +=sem_unlink("forks_sem");
-	err +=sem_unlink("end_check_sem");
+	if (sem_post(vars->end_check_sem) == 0)
+		err +=sem_unlink("end_check_sem");
 	vars->print_sem = sem_open("print_sem", O_CREAT, 0644, 1);
 	vars->forks_sem = sem_open("forks_sem", O_CREAT, 0644, vars->philo_num);
 	vars->print_sem = sem_open("end_check_sem", O_CREAT, 0644, 1);

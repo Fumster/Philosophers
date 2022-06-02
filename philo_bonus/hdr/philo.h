@@ -6,14 +6,13 @@
 /*   By: fchrysta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 15:17:06 by fchrysta          #+#    #+#             */
-/*   Updated: 2022/06/02 01:10:22 by fchrysta         ###   ########.fr       */
+/*   Updated: 2022/06/02 20:32:55 by fchrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
-# include "../libs/libft/libft.h"
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
@@ -54,5 +53,7 @@ int				philo_process(t_vars *vars);
 void			philo_print(t_vars *vars, char *message);
 int				start_processes(t_vars *vars);
 void    		*process_watcher(void *vars);
-int    killer(t_vars *vars);
+int    			killer(t_vars *vars);
+int				ft_strlen(const char *s);
+int				ft_atoi(const char *str);
 #endif

@@ -6,7 +6,7 @@
 /*   By: fchrysta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 14:33:45 by fchrysta          #+#    #+#             */
-/*   Updated: 2022/06/02 20:19:35 by fchrysta         ###   ########.fr       */
+/*   Updated: 2022/06/02 20:42:06 by fchrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,21 @@
 
 void	ft_exit(t_vars *vars)
 {
-	int	i;
-
-	i = 0;
-	if (sem_unlink("print_sem"))
-		printf("unable to unlink print sem\n");
-	if (sem_unlink("forks_sem"))
-		printf("unable to unlink forks sem\n");
+	if (sem_post(vars->print_sem) == 0)
+		if (sem_unlink("print_sem") == -1)
+			printf("unable to unlink print sem\n");
+	if (sem_post(vars->forks_sem) == 0)
+		if (sem_unlink("forks_sem") == -1)
+			printf("unable to unlink forks sem\n");
+	if (sem_post(vars->end_check_sem) == 0)
+		if (sem_unlink("end_check_sem") == -1)
+			printf("unable to unlink end_check sem\n");
 	if (sem_close(vars->print_sem))
 		printf("unable to close print sem\n");
 	if (sem_close(vars->forks_sem))
 		printf("unable to close forks sem\n");
+	if (sem_close(vars->end_check_sem))
+		printf("unable to close end check sem\n");
 	if (vars->pid)
 		free(vars->pid);
 }
@@ -78,4 +82,40 @@ int	killer(t_vars *vars)
 		i++;
 	}
 	return (0);
+}
+
+int	ft_strlen(const char *s)
+{	
+	int	i;
+
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
+}
+
+int	ft_atoi(const char *str)
+{
+	long int	num;
+	int			sign;
+
+	num = 0;
+	sign = 1;
+	while (*str == ' ' || *str == '\f' || *str == '\n' || \
+		*str == '\r' || *str == '\t' || *str == '\v')
+		str++;
+	if (*str == '+' || *str == '-')
+	{
+		if (*str == '-')
+			sign = -1;
+		str++;
+	}
+	while (*str && (*str >= '0' && *str <= '9'))
+	{
+		num = (num * 10) + (*str - 48);
+		str++;
+	}
+	if (num > 2147483647 || (*str && (*str < '0' || *str > '9')))
+		return (0);
+	return (num * sign);
 }

@@ -6,7 +6,7 @@
 /*   By: fchrysta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 11:47:12 by fchrysta          #+#    #+#             */
-/*   Updated: 2022/06/02 20:16:57 by fchrysta         ###   ########.fr       */
+/*   Updated: 2022/06/02 22:43:06 by fchrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,7 @@ int	start_processes(t_vars *vars)
 		if (vars->pid[i] == 0)
 		{
 			vars->philo.id = i + 1;
-			philo_process(vars);
-			return(0);
+			return (philo_process(vars));
 			i++;
 		}
 		i++;
@@ -87,9 +86,11 @@ int	start_processes(t_vars *vars)
 	{
 		if (WEXITSTATUS(status) == 1)
 		{
-			printf("exitstatus = 1");
-			//return (killer(vars));
+			printf("exitstatus = 1\n");
+			killer(vars);
+			return (0);
 		}
+		printf("exitstatus = 0\n");
 	}
 	return (0);
 }
