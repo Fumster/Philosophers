@@ -6,7 +6,7 @@
 /*   By: fchrysta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 11:47:12 by fchrysta          #+#    #+#             */
-/*   Updated: 2022/06/02 01:10:17 by fchrysta         ###   ########.fr       */
+/*   Updated: 2022/06/02 20:16:57 by fchrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,17 @@ int	start_processes(t_vars *vars)
 			vars->philo.id = i + 1;
 			philo_process(vars);
 			return(0);
+			i++;
 		}
 		i++;
 	}
 	while (waitpid(-1, &status, 0) > 0)
 	{
 		if (WEXITSTATUS(status) == 1)
-			return (killer(vars));
+		{
+			printf("exitstatus = 1");
+			//return (killer(vars));
+		}
 	}
 	return (0);
 }

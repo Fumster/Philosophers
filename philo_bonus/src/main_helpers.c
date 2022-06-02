@@ -6,7 +6,7 @@
 /*   By: fchrysta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 14:33:45 by fchrysta          #+#    #+#             */
-/*   Updated: 2022/06/02 00:56:44 by fchrysta         ###   ########.fr       */
+/*   Updated: 2022/06/02 20:19:35 by fchrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,6 @@ void	ft_exit(t_vars *vars)
 	int	i;
 
 	i = 0;
-	while (i < vars->philo_num)
-	{
-		kill(vars->pid[i], SIGKILL);
-		i++;
-	}
 	if (sem_unlink("print_sem"))
 		printf("unable to unlink print sem\n");
 	if (sem_unlink("forks_sem"))
