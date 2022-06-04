@@ -6,7 +6,7 @@
 /*   By: fchrysta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 11:47:12 by fchrysta          #+#    #+#             */
-/*   Updated: 2022/06/02 22:43:06 by fchrysta         ###   ########.fr       */
+/*   Updated: 2022/06/04 13:06:37 by fchrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,11 @@ void	check_philo_time(t_vars *vars)
 	if (get_time() - vars->philo.eat_time
 		>= (unsigned long)vars->time_to_die)
 	{
+		sem_wait(vars->print_sem);
 		vars->is_end = 0;
 		printf("%lu %d died\n",
-			get_time() - vars->start_time, vars->philo.id + 1);
+			get_time() - vars->start_time, vars->philo.id);
+//		sem_post(vars->print_sem);
 	}
 }
 

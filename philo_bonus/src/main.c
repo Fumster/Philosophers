@@ -6,7 +6,7 @@
 /*   By: fchrysta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 14:28:58 by fchrysta          #+#    #+#             */
-/*   Updated: 2022/06/02 22:43:11 by fchrysta         ###   ########.fr       */
+/*   Updated: 2022/06/04 13:06:42 by fchrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	main(int argc, char **argv)
 {
 	t_vars	vars;
+	int		ret;
 
 	if (parse_args(argc, argv, &vars))
 		return (0);
@@ -24,12 +25,13 @@ int	main(int argc, char **argv)
 		ft_exit(&vars);
 		return (0);
 	}
-	start_processes(&vars);
+	ret = start_processes(&vars);
 //	{
 	//	write(1, "error while start processes\n", 28);
 //		ft_exit(&vars);
 //		return (0);
 //	}
+	printf("EXITING\n");
 	ft_exit(&vars);
-	return (0);
+	return (ret);
 }
