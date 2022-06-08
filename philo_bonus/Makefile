@@ -1,10 +1,10 @@
 SOURCES = 	main.c main_helpers.c time_helpers.c initiate_variables.c \
-			process_helpers.c philo_process.c
+			process_helpers.c philo_process.c ft_itoa.c
 OBJECTS =	$(SOURCES:.c=.o)
 HEADER = 	philo.h
 CC = 		gcc
 NAME =		philo_bonus
-FLAGS =		-Wall -Wextra -Werror #-g -fsanitize=thread
+FLAGS =		-Wall -Wextra -Werror -g -fsanitize=thread
 VPATH = 	obj:src:hdr
 
 .PHONY:		all re clean fclean libs

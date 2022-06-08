@@ -6,7 +6,7 @@
 /*   By: fchrysta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 14:33:45 by fchrysta          #+#    #+#             */
-/*   Updated: 2022/06/02 20:42:06 by fchrysta         ###   ########.fr       */
+/*   Updated: 2022/06/08 21:19:53 by fchrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,20 @@
 
 void	ft_exit(t_vars *vars)
 {
-	if (sem_post(vars->print_sem) == 0)
-		if (sem_unlink("print_sem") == -1)
-			printf("unable to unlink print sem\n");
-	if (sem_post(vars->forks_sem) == 0)
-		if (sem_unlink("forks_sem") == -1)
-			printf("unable to unlink forks sem\n");
-	if (sem_post(vars->end_check_sem) == 0)
-		if (sem_unlink("end_check_sem") == -1)
-			printf("unable to unlink end_check sem\n");
-	if (sem_close(vars->print_sem))
-		printf("unable to close print sem\n");
-	if (sem_close(vars->forks_sem))
-		printf("unable to close forks sem\n");
-	if (sem_close(vars->end_check_sem))
-		printf("unable to close end check sem\n");
+	sem_unlink("print_sem");
+	sem_unlink("forks_sem");
+	sem_unlink("end_check_sem");
+	sem_unlink("eat_num_sem");
+	sem_close(vars->print_sem);
+	sem_close(vars->forks_sem);
+	sem_close(vars->end_check_sem);
+	sem_close(vars->eat_num_sem);
 	if (vars->pid)
 		free(vars->pid);
+//	if (vars->end_check_sem)
+//		free(vars->end_check_sem);
+	if (pthread_mutex_destroy(&vars->end_check_mutex))
+		printf("unable to destroy end check mutex\n");
 }
 
 int	check_values(t_vars *vars, int argc, char **argv)

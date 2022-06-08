@@ -6,7 +6,7 @@
 /*   By: fchrysta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 14:28:58 by fchrysta          #+#    #+#             */
-/*   Updated: 2022/06/04 13:06:42 by fchrysta         ###   ########.fr       */
+/*   Updated: 2022/06/07 22:57:33 by fchrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,19 @@ int	main(int argc, char **argv)
 	{
 		write(1, "error while initiate variables\n", 31);
 		ft_exit(&vars);
-		return (0);
+		return (9);
 	}
 	ret = start_processes(&vars);
-//	{
-	//	write(1, "error while start processes\n", 28);
-//		ft_exit(&vars);
-//		return (0);
-//	}
-	printf("EXITING\n");
-	ft_exit(&vars);
+	if (ret == 10) 
+	{
+		sleep(3);
+		ft_exit(&vars);
+		return (0);
+	}
+	else if (ret == 9)
+	{
+		printf("Error while starting processes");
+		ft_exit(&vars);
+	}
 	return (ret);
 }

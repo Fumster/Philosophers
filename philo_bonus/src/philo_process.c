@@ -6,7 +6,7 @@
 /*   By: fchrysta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 19:06:36 by fchrysta          #+#    #+#             */
-/*   Updated: 2022/06/04 13:06:39 by fchrysta         ###   ########.fr       */
+/*   Updated: 2022/06/08 21:19:58 by fchrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,14 @@ void	try_eat(t_vars *vars)
 	sem_wait(vars->forks_sem);
 	philo_print(vars, "has taken a fork");
 	philo_print(vars, "is eating");
-	vars->philo.eat_time = get_time();
+//	sem_wait(vars->end_check_sem[vars->id - 1]);
+	sem_wait(vars->end_check_sem);
+	printf("use %p id %d sem at philo\n", vars->end_check_sem, vars->id);
+//	pthread_mutex_lock(&vars->end_check_mutex); //delete this
+	vars->eat_time = get_time();
+//	pthread_mutex_unlock(&vars->end_check_mutex); // delete this
+//	sem_post(vars->end_check_sem[vars->id - 1]);
+	sem_post(vars->end_check_sem);
 	mysleep (vars->time_to_eat);
 	sem_post(vars->forks_sem);
 	sem_post(vars->forks_sem);
@@ -30,14 +37,10 @@ int	philo_cycle(t_vars *vars)
 {	
 	while (1)
 	{
-		if (vars->is_end <= 0)
-		{
-			return (1);
-		}
 		if (!vars->eat_num)
 		{
-			vars->is_end = 0;
-			return (0);
+			printf("philo %d returning 0\n", vars->id);
+			exit (0);
 		}
 		try_eat(vars);
 		philo_print(vars, "is sleeping");
@@ -53,13 +56,13 @@ int	philo_process(t_vars *vars)
 	ret = 0;
 	pthread_create(&(vars->philo_thread),NULL, process_watcher, vars);
 	philo_print(vars, "is thinking");
-	if (vars->philo.id % 2 == 0 && vars->philo_num != 1)
+	if (vars->id % 2 == 0 && vars->philo_num != 1)
 		mysleep(vars->time_to_eat - 5);
 	if (vars->philo_num == 1)
 	{
 		philo_print(vars, "has taken a fork");
 		mysleep(vars->time_to_die + 200);
-		ret = 1;
+		ret = -1;
 	}
 	else
 		ret = philo_cycle(vars);
