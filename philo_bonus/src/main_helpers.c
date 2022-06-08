@@ -6,7 +6,7 @@
 /*   By: fchrysta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 14:33:45 by fchrysta          #+#    #+#             */
-/*   Updated: 2022/06/08 21:19:53 by fchrysta         ###   ########.fr       */
+/*   Updated: 2022/06/08 23:12:35 by fchrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ void	ft_exit(t_vars *vars)
 	sem_close(vars->forks_sem);
 	sem_close(vars->end_check_sem);
 	sem_close(vars->eat_num_sem);
-	if (vars->pid)
-		free(vars->pid);
+	if (vars->philo_pid)
+		free(vars->philo_pid);
 //	if (vars->end_check_sem)
 //		free(vars->end_check_sem);
 	if (pthread_mutex_destroy(&vars->end_check_mutex))
@@ -75,9 +75,10 @@ int	killer(t_vars *vars)
 	i = 0;
 	while (i < vars->philo_num)
 	{
-		kill(vars->pid[i], SIGKILL);
+		kill(vars->philo_pid[i], SIGKILL);
 		i++;
 	}
+	kill(vars->eat_num_check_pid, SIGKILL);
 	return (0);
 }
 

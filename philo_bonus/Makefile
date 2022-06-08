@@ -4,7 +4,7 @@ OBJECTS =	$(SOURCES:.c=.o)
 HEADER = 	philo.h
 CC = 		gcc
 NAME =		philo_bonus
-FLAGS =		-Wall -Wextra -Werror -g -fsanitize=thread
+FLAGS =		-Wall -Wextra -Werror #-g -fsanitize=thread
 VPATH = 	obj:src:hdr
 
 .PHONY:		all re clean fclean libs

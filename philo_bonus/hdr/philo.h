@@ -6,7 +6,7 @@
 /*   By: fchrysta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 15:17:06 by fchrysta          #+#    #+#             */
-/*   Updated: 2022/06/08 20:17:09 by fchrysta         ###   ########.fr       */
+/*   Updated: 2022/06/08 23:12:37 by fchrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,13 @@ typedef struct s_vars
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				eat_num;
-	pid_t			*pid;
+	pid_t			*philo_pid;
+	pid_t			eat_num_check_pid;
 	sem_t			*print_sem;
 	sem_t			*forks_sem;
 	sem_t			*end_check_sem;
 	sem_t			*eat_num_sem;
-	pthread_t		philo_thread;
+	pthread_t		life_check_thread;
 	pthread_mutex_t	end_check_mutex; // delete this
 }				t_vars;
 
@@ -48,7 +49,7 @@ void			ft_exit(t_vars *vars);
 int				philo_process(t_vars *vars);
 void			philo_print(t_vars *vars, char *message);
 int				start_processes(t_vars *vars);
-void    		*process_watcher(void *vars);
+void    		*life_watcher(void *vars);
 int    			killer(t_vars *vars);
 int				ft_strlen(const char *s);
 int				ft_atoi(const char *str);
