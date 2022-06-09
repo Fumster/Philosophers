@@ -6,7 +6,7 @@
 /*   By: fchrysta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/26 19:06:36 by fchrysta          #+#    #+#             */
-/*   Updated: 2022/06/08 23:12:32 by fchrysta         ###   ########.fr       */
+/*   Updated: 2022/06/09 21:56:59 by fchrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,8 @@ void	try_eat(t_vars *vars)
 	sem_wait(vars->forks_sem);
 	philo_print(vars, "has taken a fork");
 	philo_print(vars, "is eating");
-//	sem_wait(vars->end_check_sem[vars->id - 1]);
 	sem_wait(vars->end_check_sem);
-	printf("use %p id %d sem at philo\n", vars->end_check_sem, vars->id);
-//	pthread_mutex_lock(&vars->end_check_mutex); //delete this
 	vars->eat_time = get_time();
-//	pthread_mutex_unlock(&vars->end_check_mutex); // delete this
-//	sem_post(vars->end_check_sem[vars->id - 1]);
 	sem_post(vars->end_check_sem);
 	mysleep (vars->time_to_eat);
 	sem_post(vars->forks_sem);
@@ -33,7 +28,7 @@ void	try_eat(t_vars *vars)
 	vars->eat_num--;
 }
 
-int	philo_cycle(t_vars *vars)
+void	philo_cycle(t_vars *vars)
 {	
 	while (1)
 	{
@@ -48,21 +43,18 @@ int	philo_cycle(t_vars *vars)
 
 int	philo_process(t_vars *vars)
 {
-	int	ret;
-
-	ret = 0;
-	pthread_create(&(vars->life_check_thread),NULL, life_watcher, vars);
+	if (pthread_create(&(vars->life_check_thread), NULL, life_watcher, vars))
+	{
+		printf("error life_chec_thread_creating\n");
+		return (10);
+	}
 	philo_print(vars, "is thinking");
 	if (vars->id % 2 == 0 && vars->philo_num != 1)
 		mysleep(vars->time_to_eat - 5);
 	if (vars->philo_num == 1)
-	{
 		philo_print(vars, "has taken a fork");
-		mysleep(vars->time_to_die + 200);
-		ret = -1;
-	}
 	else
-		ret = philo_cycle(vars);
+		philo_cycle(vars);
 	pthread_join(vars->life_check_thread, NULL);
-	return (ret);
+	exit(0);
 }

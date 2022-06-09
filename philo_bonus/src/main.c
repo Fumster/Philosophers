@@ -6,7 +6,7 @@
 /*   By: fchrysta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 14:28:58 by fchrysta          #+#    #+#             */
-/*   Updated: 2022/06/07 22:57:33 by fchrysta         ###   ########.fr       */
+/*   Updated: 2022/06/09 21:56:19 by fchrysta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,12 @@ int	main(int argc, char **argv)
 		return (9);
 	}
 	ret = start_processes(&vars);
-	if (ret == 10) 
-	{
-		sleep(3);
-		ft_exit(&vars);
-		return (0);
-	}
-	else if (ret == 9)
+	if (ret > 0)
 	{
 		printf("Error while starting processes");
 		ft_exit(&vars);
+		return (ret);
 	}
-	return (ret);
+	ft_exit(&vars);
+	return (0);
 }

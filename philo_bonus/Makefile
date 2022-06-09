@@ -1,5 +1,5 @@
 SOURCES = 	main.c main_helpers.c time_helpers.c initiate_variables.c \
-			process_helpers.c philo_process.c ft_itoa.c
+			process_helpers.c philo_process.c lib_utils.c
 OBJECTS =	$(SOURCES:.c=.o)
 HEADER = 	philo.h
 CC = 		gcc
